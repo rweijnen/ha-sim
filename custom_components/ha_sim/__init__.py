@@ -7,16 +7,24 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
+from .const import DOMAIN
+from .coordinator import IntegrationMonitorCoordinator
+
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = "ha_sim"
-PLATFORMS: list[Platform] = []
+PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Home Assistant Integration Monitor from a config entry."""
     hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.entry_id] = {}
+    
+    coordinator = IntegrationMonitorCoordinator(hass, entry)
+    await coordinator.async_config_entry_first_refresh()
+    
+    hass.data[DOMAIN][entry.entry_id] = {
+        "coordinator": coordinator,
+    }
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 

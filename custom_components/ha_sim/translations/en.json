@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Integration Monitor",
+        "description": "Set up the Home Assistant Integration Monitor to track integration health.",
+        "data": {
+          "scan_interval": "Scan interval (seconds)"
+        },
+        "data_description": {
+          "scan_interval": "How often to check integration status (min: {min_scan}s, max: {max_scan}s, default: {default_scan}s)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Integration is already configured"
+    }
+  }
+}

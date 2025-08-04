@@ -2,14 +2,25 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
+> ⚠️ **EARLY DEVELOPMENT WARNING**: This integration is in very early development and is NOT ready for production use. It is currently a placeholder repository with minimal functionality. Please do not deploy this to your Home Assistant instance yet.
+
 HA-SIM is a custom Home Assistant integration that monitors the health and performance of other integrations in your Home Assistant instance.
 
 ## Features
 
-- Monitor integration status and health
-- Track integration performance metrics
-- Alert on integration failures
-- Display integration resource usage
+- **Binary Sensor**: Indicates if any integrations have failed
+- **Counter Sensor**: Shows the number of currently failed integrations
+- **List Sensor**: Displays which integrations have failed
+- **Configurable Polling**: Adjust how often to check integration status (1 minute to 1 hour)
+- **Smart Filtering**: Automatically ignores disabled integrations
+
+### Entities Created
+
+After installation, HA-SIM creates three entities:
+
+1. `binary_sensor.ha_sim_integration_failures_detected` - On when failures are detected
+2. `sensor.ha_sim_failed_integration_count` - Number of failed integrations
+3. `sensor.ha_sim_failed_integrations` - List of failed integrations with details
 
 ## Installation
 
