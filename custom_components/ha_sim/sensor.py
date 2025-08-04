@@ -6,6 +6,7 @@ from typing import Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -32,12 +33,18 @@ class IntegrationFailureCountSensor(CoordinatorEntity[IntegrationMonitorCoordina
 
     _attr_has_entity_name = True
     _attr_name = "Failed Integration Count"
-    _attr_icon = "mdi:counter"
+    _attr_icon = "mdi:numeric"
 
     def __init__(self, coordinator: IntegrationMonitorCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_unique_id = f"{coordinator.config_entry.entry_id}_failed_count"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry.entry_id)},
+            manufacturer="HA-SIM",
+            model="Integration Monitor",
+            name="HA-SIM Monitor",
+        )
 
     @property
     def native_value(self) -> int:
@@ -57,12 +64,18 @@ class FailedIntegrationsListSensor(CoordinatorEntity[IntegrationMonitorCoordinat
 
     _attr_has_entity_name = True
     _attr_name = "Failed Integrations"
-    _attr_icon = "mdi:alert-circle"
+    _attr_icon = "mdi:alert-box-outline"
 
     def __init__(self, coordinator: IntegrationMonitorCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_unique_id = f"{coordinator.config_entry.entry_id}_failed_list"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry.entry_id)},
+            manufacturer="HA-SIM",
+            model="Integration Monitor",
+            name="HA-SIM Monitor",
+        )
 
     @property
     def native_value(self) -> str:

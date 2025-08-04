@@ -36,24 +36,33 @@ class IntegrationMonitorCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Update data via library."""
-        failed_integrations = []
-        
-        # Get all config entries
-        for entry in self.hass.config_entries.async_entries():
-            # Skip disabled integrations
-            if entry.state == "disabled":
-                continue
-                
-            # Check if integration failed to load
-            if entry.state in ["setup_error", "setup_retry", "migration_error", "failed_unload"]:
-                failed_integrations.append({
-                    "domain": entry.domain,
-                    "title": entry.title,
-                    "state": entry.state,
-                })
-        
-        return {
-            "failed_integrations": failed_integrations,
-            "failed_count": len(failed_integrations),
-            "has_failures": len(failed_integrations) > 0,
-        }
+        try:
+            failed_integrations = []
+            
+            # Get all config entries
+            for entry in self.hass.config_entries.async_entries():
+                # Skip disabled integrations
+                if entry.state == "disabled":
+                    continue
+                    
+                # Check if integration failed to load
+                if entry.state in ["setup_error", "setup_retry", "migration_error", "failed_unload"]:
+                    failed_integrations.append({
+                        "domain": entry.domain,
+                        "title": entry.title,
+                        "state": entry.state,
+                    })
+            
+            return {
+                "failed_integrations": failed_integrations,
+                "failed_count": len(failed_integrations),
+                "has_failures": len(failed_integrations) > 0,
+            }
+        except Exception as err:
+            _LOGGER.error("Error updating integration status: %s", err)
+            # Return safe default data on error
+            return {
+                "failed_integrations": [],
+                "failed_count": 0,
+                "has_failures": False,
+            }

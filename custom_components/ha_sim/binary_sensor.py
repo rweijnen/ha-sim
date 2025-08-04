@@ -9,6 +9,7 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -40,6 +41,12 @@ class IntegrationFailureBinarySensor(CoordinatorEntity[IntegrationMonitorCoordin
         """Initialize the binary sensor."""
         super().__init__(coordinator)
         self._attr_unique_id = f"{coordinator.config_entry.entry_id}_has_failures"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, coordinator.config_entry.entry_id)},
+            manufacturer="HA-SIM",
+            model="Integration Monitor",
+            name="HA-SIM Monitor",
+        )
 
     @property
     def is_on(self) -> bool:
