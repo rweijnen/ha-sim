@@ -1,0 +1,12 @@
+{
+  "domain": "ha_sim",
+  "name": "Home Assistant Integration Monitor",
+  "codeowners": ["@rweijnen"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/rweijnen/ha-sim",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/rweijnen/ha-sim/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
